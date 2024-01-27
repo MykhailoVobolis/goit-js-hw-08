@@ -87,9 +87,13 @@ list.insertAdjacentHTML('beforeend', imageItem);
 const imageGallery = document.querySelector('.gallery');
 
 imageGallery.addEventListener('click', event => {
+  // Перевірка на клік по зображенню
+  if (event.target.nodeName !== 'IMG') {
+    return; // користувач клікнув між зображеннями
+  }
+  // Виклик скрипта бібліотеки basicLightbox
   const instance = basicLightbox.create(`
     <img src="${event.target.dataset.source}">
 `);
-
   instance.show();
 });
