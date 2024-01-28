@@ -89,6 +89,7 @@ imageGallery.addEventListener('click', onClick);
 
 // Обробка події кліку по зображенню
 function onClick(event) {
+  event.preventDefault();
   // Перевірка на клік по зображенню
   if (event.target.nodeName !== 'IMG') {
     return; // користувач клікнув між зображеннями
