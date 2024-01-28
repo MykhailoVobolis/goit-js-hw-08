@@ -83,17 +83,32 @@ const imageItem = images
 
 list.insertAdjacentHTML('beforeend', imageItem);
 
-// Обробка події кліку по зображенню
 const imageGallery = document.querySelector('.gallery');
 
-imageGallery.addEventListener('click', event => {
+imageGallery.addEventListener('click', onClick);
+
+// Обробка події кліку по зображенню
+function onClick(event) {
   // Перевірка на клік по зображенню
   if (event.target.nodeName !== 'IMG') {
     return; // користувач клікнув між зображеннями
   }
-  // Виклик скрипта бібліотеки basicLightbox
-  const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}">
-`);
+  // Робота бібліотеки basicLightbox
+  // Створення екзмпляру basicLightbox
+  const instance = basicLightbox.create(
+    `<img src="${event.target.dataset.source}">`
+  );
   instance.show();
-});
+
+  // Закриття модального викна при натисканні Esc
+  document.addEventListener('keydown', pressKeyEsc);
+
+  // Функція натискання Esc key
+  function pressKeyEsc(event) {
+    if (event.code !== 'Escape') {
+      return; // користувач клікнув не на Esc
+    }
+    instance.close();
+    document.removeEventListener('keydown', pressKeyEsc);
+  }
+}
