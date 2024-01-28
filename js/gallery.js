@@ -89,7 +89,6 @@ imageGallery.addEventListener('click', onClick);
 
 // Обробка події кліку по зображенню
 function onClick(event) {
-  event.preventDefault();
   // Перевірка на клік по зображенню
   if (event.target.nodeName !== 'IMG') {
     return; // користувач клікнув між зображеннями
@@ -106,6 +105,7 @@ function onClick(event) {
 
   // Функція натискання Esc key
   function pressKeyEsc(event) {
+    event.preventDefault(); // в Safari за дефолтом Esc переводить браузер з повноекронного у віконний режим
     if (event.code !== 'Escape') {
       return; // користувач клікнув не на Esc
     }
