@@ -25,11 +25,11 @@ body {
   padding-top: 60px;
 }
 
-.gallery img {
+.gallery-image {
   transition: transform 250ms ease-in-out;
 }
 
-.gallery img:hover {
+.gallery-image:hover {
   cursor: zoom-in;
   transform: scale(1.04);
   transition: transform 250ms ease-in-out;

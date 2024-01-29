@@ -69,14 +69,14 @@ const list = document.querySelector('.gallery');
 
 const imageItem = images
   .map(
-    i => ` <li>
-      <img
+    i => ` <li class="gallery-item"><a class="gallery-link" href="${i.original}">
+      <img class="gallery-image"
         src="${i.preview}"
         data-source="${i.original}"
         alt="${i.description}"
         width="360"
         height="200"
-      />
+      /></a>
     </li>`
   )
   .join('');
@@ -89,6 +89,7 @@ imageGallery.addEventListener('click', onClick);
 
 // Обробка події кліку по зображенню
 function onClick(event) {
+  event.preventDefault(); // скидання дефолтного значення браузера (скачування зображення)
   // Перевірка на клік по зображенню
   if (event.target.nodeName !== 'IMG') {
     return; // користувач клікнув між зображеннями
@@ -96,20 +97,26 @@ function onClick(event) {
   // Робота бібліотеки basicLightbox
   // Створення екзмпляру basicLightbox
   const instance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}">`
+    `<img src="${event.target.dataset.source}" alt="${event.target.getAttribute(
+      'alt'
+    )}">`,
+    {
+      onShow: instance => {
+        document.addEventListener('keydown', pressKeyEsc);
+      },
+      onClose: instance => {
+        document.removeEventListener('keydown', pressKeyEsc);
+      },
+    }
   );
   instance.show();
 
   // Закриття модального викна при натисканні Esc
-  document.addEventListener('keydown', pressKeyEsc);
-
-  // Функція натискання Esc key
   function pressKeyEsc(event) {
     event.preventDefault(); // в Safari за дефолтом Esc переводить браузер з повноекронного у віконний режим
     if (event.code !== 'Escape') {
       return; // користувач клікнув не на Esc
     }
     instance.close();
-    document.removeEventListener('keydown', pressKeyEsc);
   }
 }
